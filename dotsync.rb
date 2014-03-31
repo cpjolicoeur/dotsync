@@ -12,10 +12,10 @@ class ConfigFile
 
   def sync_files
     raise LoadError unless self.class.destination_folder_path
+    FileUtils.mkdir_p("#{full_destination_path}") unless File.exist?(full_destination_path)
     Dir.glob("#{source_path}/*").each do |file|
       next if @ignored_files.include?(File.basename(file))
-      FileUtils.mkpath("#{full_destination_path}/#{File.basename(file)}")
-      FileUtils.cp_r(file, "#{full_destination_path}/#{File.basename(file)}")
+      FileUtils.cp_r("#{file}", "#{full_destination_path}/#{File.basename(file)}")
     end
   end
 

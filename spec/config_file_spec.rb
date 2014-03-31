@@ -24,7 +24,9 @@ describe ConfigFile do
 
       it 'should create a path in the desetination folder' do
         FileUtils.stub(:cp_r)
-        FileUtils.should_receive(:mkpath).once
+        File.stub(:exist?).and_return(false)
+        FileUtils.stub(:mkdir_p)
+        FileUtils.should_receive(:mkdir_p).once
         @config_file.sync_files
       end
 

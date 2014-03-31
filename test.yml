@@ -1,7 +1,0 @@
-destination_path: /Users/jaychae/Developers/Personal/vim-dotfiles
-dotfiles:
-  -
-    description: Vim
-    source_path: /Users/jaychae/.vim
-    destination_name: vim-bundles
-    ignored_files: bundles

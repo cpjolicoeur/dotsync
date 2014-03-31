@@ -22,12 +22,34 @@ describe ConfigFile do
         Dir.stub(:glob).with(anything()).and_return(ret_val)
       end
 
-      it 'should create a path in the desetination folder' do
-        FileUtils.stub(:cp_r)
-        File.stub(:exist?).and_return(false)
-        FileUtils.stub(:mkdir_p)
-        FileUtils.should_receive(:mkdir_p).once
-        @config_file.sync_files
+      context 'when the source is a directory' do
+        before do
+          FileUtils.stub(:cp_r)
+        end
+
+        it 'should use #sync_folder method' do
+          @config_file.should_receive(:sync_folder)
+          @config_file.sync_files
+        end
+
+        it 'should create a path in the desetination folder' do
+          File.stub(:exist?).and_return(false)
+          FileUtils.stub(:mkdir_p)
+          FileUtils.should_receive(:mkdir_p).once
+          @config_file.sync_files
+        end
+      end
+
+      context 'when the source is a file' do
+        before do
+          @config_file = ConfigFile.new("/Users/jaychae/.vimrc", "vimrc", "Vim config", nil)
+          FileUtils.stub(:cp)
+        end
+
+        it 'should call #sync_single_file' do
+          @config_file.should_receive(:sync_single_file)
+          @config_file.sync_files
+        end
       end
 
       xit 'should raise a LoadError if the destionation_folder_path is nil' do

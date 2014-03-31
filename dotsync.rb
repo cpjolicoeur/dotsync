@@ -12,15 +12,16 @@ class ConfigFile
 
   def sync_files
     raise LoadError unless self.class.destination_folder_path
-    FileUtils.mkdir_p("#{full_destination_path}") unless File.exist?(full_destination_path)
-    Dir.glob("#{source_path}/*").each do |file|
-      next if @ignored_files.include?(File.basename(file))
-      FileUtils.cp_r("#{file}", "#{full_destination_path}/#{File.basename(file)}")
+
+    if File.directory?(@source_path)
+      sync_folder
+    else
+      sync_single_file
     end
   end
 
   def self.dotsync_yaml_config_file
-    "#{FIle.expand_path("~")}/dotsyncrc.yml"
+    "#{File.expand_path("~")}/dotsyncrc.yml"
   end
 
   def self.execute
@@ -47,6 +48,20 @@ class ConfigFile
 
   def self.destination_folder_path
     @@destination_folder_path
+  end
+
+  private
+
+  def sync_single_file
+    FileUtils.cp(source_path, full_destination_path)
+  end
+  
+  def sync_folder
+    FileUtils.mkdir_p("#{full_destination_path}") unless File.exist?(full_destination_path)
+    Dir.glob("#{source_path}/*").each do |file|
+      next if @ignored_files.include?(File.basename(file))
+      FileUtils.cp_r("#{file}", "#{full_destination_path}/#{File.basename(file)}")
+    end
   end
 end
 

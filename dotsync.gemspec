@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name             = 'dotsync'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Sync your dotfiles.'
   s.description      = <<EOF
 Easily sync your dotfiles in one place.

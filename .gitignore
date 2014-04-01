@@ -1,3 +1,4 @@
 dotsyncrc.yml
 test_runner.rb
 test.yml
+*.gem

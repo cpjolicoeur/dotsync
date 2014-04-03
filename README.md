@@ -8,8 +8,8 @@ Create **dotsyncrc.yml** in the **home** directory
 
 Installation
 ------------
-	gem install instagram
-
+	gem install dotsync
+	
 
 Code
 --------------
